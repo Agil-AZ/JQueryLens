@@ -1,18 +1,26 @@
 JQueryLens = { 
 
-	width: 1,
-	height: 1,
+	init: function(params) {
+		this.width = params.width ? params.width : 1;
+		this.height = params.height ? params.height : 1;
+		this.divId = "#lens";
+		this.thumbnail = { divId: "#thumbnail" };
+		this.realsize = { divId: "#realsize" };
+	},
 
-	divId: "#lens",
-	thumbnail: { divId: "#thumbnail" },
-	realsize: { divId: "#realsize" },
+	updateView: function() {
+		$(this.divId).width(this.width);
+		$(this.divId).height(this.height);
+	},
 
 	setWidth: function(newWidth) {
 		this.width = newWidth;
+		this.updateView();
 	},
 
 	setHeight: function(newHeight) {
 		this.height = newHeight;
+		this.updateView();
 	},
 
 	calculateLeftIn: function(e) {
@@ -94,7 +102,7 @@ JQueryLens = {
 		$("#view").css({"top" : 4*(-parseInt($("#lens").css("top")))});
 	},
 
-	resizeLensRespectLargeImage: function() {
+	resize: function() {
 		$("#lens").css({"height" : parseInt($("#large-image").css("height"))/4});
 		$("#lens").css({"width" : parseInt($("#large-image").css("width"))/4});
 	},
@@ -107,3 +115,5 @@ JQueryLens = {
 };
 
 //$(document).ready(new JQueryLens().on_document_ready);
+
+JQueryLens.init();
