@@ -88,8 +88,8 @@ $(document).ready(function()
     $("#lens").css({"height" : parseInt($("#large-image").css("height"))/4});
     $("#lens").css({"width" : parseInt($("#large-image").css("width"))/4});
 
-    $("#view").css({"height" : 4*parseInt($("#image").css("height"))});
-    $("#view").css({"width" : 4*parseInt($("#image").css("width"))});
+    //$("#view").css({"height" : 4*parseInt($("#image").css("height"))});
+    //$("#view").css({"width" : 4*parseInt($("#image").css("width"))});
 
     $("#image").mousemove(mouseOverImage);
     $("#lens").mousemove(setLargeImage);
