@@ -1,82 +1,89 @@
 describe("The JQueryLens", function () {
 
 	beforeEach(function () {
-        var sample_lens_html_code = '<div id="thumbnail"> <div id="locator"> </div> </div> <div id="lens"> <img src="img/image.jpg" /> </div>';
+		$('#test-div').remove();
+        var sample_lens_html_code = '<div id="test-div"><div id="thumbnail"> <div id="locator"> </div> </div> <div id="lens"> <img src="img/image.jpg" /> </div></div>';
 		$(sample_lens_html_code).appendTo('body');
 		JQueryLens.init({});
 	});
 
-	it("cannot change its width and height", function () {
+	it("cannot change nor query its width, height and zoom", function () {
 		var aLens = JQueryLens;
 
 		expect(aLens.setWidth).toBeUndefined();
 		expect(aLens.setHeight).toBeUndefined();
+		expect(aLens.setZoom).toBeUndefined();
+		expect(aLens.width).toBeUndefined();
+		expect(aLens.height).toBeUndefined();
+		expect(aLens.zoom).toBeUndefined();
 	});
 
 	it("has default values for its fields", function () {
 		var aLens = JQueryLens;
 
-		expect(aLens.width).toBe(1);
-		expect(aLens.height).toBe(1);
-		expect(aLens.zoom).toBe(4);
-		expect(aLens.lens.divId).toBe("#lens");
-		expect(aLens.thumbnail.divId).toBe("#thumbnail");
-		expect(aLens.locator.divId).toBe("#locator");
+		expect(aLens.lens.id).toBe("#lens");
+		expect(aLens.thumbnail.id).toBe("#thumbnail");
+		expect(aLens.locator.id).toBe("#locator");
 	});
 
 	it("can be initialized with values for its fields", function () {
-		var aWidth = 130;
-		var aHeight = 140;
-		var aZoom = 10;
 		var anotherDivId = "anotherId";
 
 		var aLens = JQueryLens;
 		aLens.init({
-			width:     aWidth, 
-			height:    aHeight,
-			zoom:      aZoom,
-			locator:   { divId: anotherDivId },
-			thumbnail: { divId: anotherDivId },
-			lens:  	   { divId: anotherDivId }
+			locator:   { id: anotherDivId },
+			thumbnail: { id: anotherDivId },
+			lens:  	   { id: anotherDivId }
 		});
 
-		expect(aLens.width).toBe(aWidth);
-		expect(aLens.height).toBe(aHeight);
-		expect(aLens.zoom).toBe(aZoom);
-		expect(aLens.locator.divId).toBe(anotherDivId);
-		expect(aLens.thumbnail.divId).toBe(anotherDivId);
-		expect(aLens.lens.divId).toBe(anotherDivId);
+		expect(aLens.locator.id).toBe(anotherDivId);
+		expect(aLens.thumbnail.id).toBe(anotherDivId);
+		expect(aLens.lens.id).toBe(anotherDivId);
 	});
 
-	it("has same proportion than realsize image", function () {
+	it("has locator with same proportion than lens", function () {
 		var aWidth = 800;
 		var aHeight = 600;
 		var aLens = JQueryLens;
-		var anImage = aLens.lens.divId;
+		var lensDiv = $(aLens.lens.id);
+		var locatorDiv = $(aLens.locator.id);
 
-		$(anImage).width(aWidth);
-		$(anImage).height(aHeight);
+		lensDiv.width(aWidth);
+		lensDiv.height(aHeight);
 
-		aLens.resize();
+		aLens.resizeLocator();
 
-		expect(aLens.width / aLens.height).toBe(aWidth / aHeight);
+		expect(locatorDiv.width() / locatorDiv.height()).toBe(aWidth / aHeight);
 	});
 
-	it("is reduced in the proportion the zoom sets", function () {
+	it("resizes locator in the proportion the zoom sets when initialized", function () {
 		var aWidth = 800;
 		var aHeight = 600;
 		var aZoom = 5;
 		var aLens = JQueryLens;
-		var anImage = aLens.lens.divId;
+		var lensDiv = $(aLens.lens.id);
+		var locatorDiv = $(aLens.locator.id);
 
-		$(anImage).width(aWidth);
-		$(anImage).height(aHeight);
+		lensDiv.width(aWidth);
+		lensDiv.height(aHeight);
+		aLens.init({zoom: aZoom});
 
-		aLens.setZoom(aZoom);
-		aLens.resize();
+		expect(locatorDiv.width()).toBe(aWidth / aZoom);
+		expect(locatorDiv.height()).toBe(aHeight / aZoom);
+	});
 
-		expect(aLens.width).toBe(aWidth / aZoom);
-		expect(aLens.height).toBe(aHeight / aZoom);
+	it("sets thumbnail height according to thumbnail width and the image proportion", function() {
+		var thumbnailDiv = $(JQueryLens.thumbnail.id);
+		var image = JQueryLens.image;
+
+		image.width(1000);
+		image.height(500);
+		thumbnailDiv.width(200);
+
+		var aLens = JQueryLens;
+		aLens.init({});
+
+		expect(thumbnailDiv.width() / thumbnailDiv.height()).toBe(image.width() / image.height());
 	});
 
 });

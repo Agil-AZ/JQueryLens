@@ -1,33 +1,35 @@
 JQueryLens = { 
 
 	init: function(params) {
-		this.width     = params.width  ? params.width  : 1;
-		this.height    = params.height ? params.height : 1;
-		this.zoom      = params.zoom   ? params.zoom   : 4;
+		this._zoom    = params.zoom ? params.zoom : 4;
 		this.locator = params.locator 
-			? params.locator  
-			: { divId: "#locator"};
+			? params.locator 
+			: { id: "#locator" };
 		this.thumbnail = params.thumbnail 
-			? params.thumbnail   
-			: { divId: "#thumbnail" };
-		this.lens  = params.lens   
-			? params.lens
-			: { divId: "#lens" };
+			? params.thumbnail 
+			: { id: "#thumbnail" };
+		this.lens  = params.lens 
+			? params.lens 
+			: { id: "#lens" };
+		this.image = $(this.getIdForImage());
+		this.resizeLocator();
+		this.resizeThumbnail();
 	},
 
-	updateView: function() {
-		$(this.divId).width(this.width);
-		$(this.divId).height(this.height);
+	getIdForImage: function() {
+		return this.lens.id + " img";
 	},
 
-	setZoom: function(newZoom) {
-		this.zoom = newZoom;
+	resizeLocator: function() {
+		$(this.locator.id).width($(this.lens.id).width()/this._zoom);
+		$(this.locator.id).height($(this.lens.id).height()/this._zoom);
 	},
 
-	resize: function() {
-		this.width = $("#lens").width()/this.zoom;
-		this.height = $("#lens").height()/this.zoom;
-		this.updateView();
+	resizeThumbnail: function() {
+		var imageHeight = this.image.height();
+		var imageWidth = this.image.width();
+		var thumbnail = $(this.thumbnail.id);
+		thumbnail.height(thumbnail.width() * imageHeight / imageWidth);
 	},
 
 	calculateLeftIn: function(e) {
