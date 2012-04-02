@@ -28,6 +28,10 @@ JQueryLens = {
 		this.updateView();
 	},
 
+	setZoom: function(newZoom) {
+		this.zoom = newZoom;
+	},
+
 	calculateLeftIn: function(e) {
 		return e.pageX-parseInt($("#lens").css("width"))/2 - parseInt($("#image").css("left"));
 	},
@@ -108,8 +112,8 @@ JQueryLens = {
 	},
 
 	resize: function() {
-		this.setWidth($("#realsize").width()/4);
-		this.setHeight($("#realsize").height()/4);
+		this.setWidth($("#realsize").width()/this.zoom);
+		this.setHeight($("#realsize").height()/this.zoom);
 	},
 
 	on_document_ready: function() {

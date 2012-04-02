@@ -87,4 +87,22 @@ describe("The JQueryLens", function () {
 
 		expect(aLens.width / aLens.height).toBe(aWidth / aHeight);
 	});
+
+	it("is reduced in the proportion the zoom sets", function () {
+		var aWidth = 800;
+		var aHeight = 600;
+		var aZoom = 5;
+		var aLens = JQueryLens;
+		var anImage = aLens.realsize.divId;
+
+		$(anImage).width(aWidth);
+		$(anImage).height(aHeight);
+
+		aLens.setZoom(aZoom);
+		aLens.resize();
+
+		expect(aLens.width).toBe(aWidth / aZoom);
+		expect(aLens.height).toBe(aHeight / aZoom);
+	});
+
 });
