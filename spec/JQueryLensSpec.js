@@ -29,4 +29,17 @@ describe("The JQueryLens", function () {
 		expect(aLens.realsize.divId).toBe('#realsize');
 	});
 
+	it("has same proportion than realsize image", function () {
+		var aWidth = 800;
+		var aHeight = 600;
+		var aLens = JQueryLens;
+		var anImage = aLens.realsize.divId;
+
+		$(anImage).width(aWidth);
+		$(anImage).height(aHeight);
+
+		aLens.resize();
+
+		expect(aLens.width / aLens.height).toBe(aWidth / aHeight);
+	});
 });
