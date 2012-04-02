@@ -11,12 +11,12 @@
 #large-image
 {
     border: 1px solid rgba(0,0,0,1);
-    /*height: 320px;*/
+    height: 320px;
     left: 490px;
     overflow: hidden;
     position: absolute;
     top: 40px;
-    /*width: 480px;*/
+    width: 580px;
 }
 
 #large-image img
@@ -29,7 +29,7 @@
     background-color: rgba(255,255,255,0.5);
     border: 0px solid rgba(0,0,0,0.5);
     cursor: pointer;
-    height: 100px;
+    height: 160px;
     left: 0px;
     position: absolute;
     top: 0px;
