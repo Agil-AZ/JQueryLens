@@ -1,7 +1,8 @@
 describe("The JQueryLens", function () {
 
 	beforeEach(function () {
-		$('<div id="lens"></div>').appendTo('body');
+        	var sample_lens_html_code = '<div id="thumbnail"> <div id="lens"> </div> </div> <div id="realsize"> <img src="img/image.jpg" /> </div>';
+		$(sample_lens_html_code).appendTo('body');
 		JQueryLens.init({});
 	});
 

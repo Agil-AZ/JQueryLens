@@ -98,13 +98,13 @@ JQueryLens = {
 	},
 
 	setLargeImage: function() {
-		$("#view").css({"left" : 4*(-parseInt($("#lens").css("left")))});
-		$("#view").css({"top" : 4*(-parseInt($("#lens").css("top")))});
+		$("#realsize img").css({"left" : 4*(-parseInt($("#lens").css("left")))});
+		$("#realsize img").css({"top" : 4*(-parseInt($("#lens").css("top")))});
 	},
 
 	resize: function() {
-		$("#lens").css({"height" : parseInt($("#large-image").css("height"))/4});
-		$("#lens").css({"width" : parseInt($("#large-image").css("width"))/4});
+		this.setWidth($("#realsize").width()/4);
+		this.setHeight($("#realsize").height()/4);
 	},
 
 	on_document_ready: function() {
