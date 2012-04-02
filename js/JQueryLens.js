@@ -32,6 +32,11 @@ JQueryLens = {
 		this.zoom = newZoom;
 	},
 
+	resize: function() {
+		this.setWidth($("#realsize").width()/this.zoom);
+		this.setHeight($("#realsize").height()/this.zoom);
+	},
+
 	calculateLeftIn: function(e) {
 		return e.pageX-parseInt($("#lens").css("width"))/2 - parseInt($("#image").css("left"));
 	},
@@ -111,13 +116,8 @@ JQueryLens = {
 		$("#realsize img").css({"top" : 4*(-parseInt($("#lens").css("top")))});
 	},
 
-	resize: function() {
-		this.setWidth($("#realsize").width()/this.zoom);
-		this.setHeight($("#realsize").height()/this.zoom);
-	},
-
 	on_document_ready: function() {
-		this.resizeLensRespectLargeImage();
+		this.resize();
 		$("#image").mousemove(this.mouseOverImage);
 	}
 
