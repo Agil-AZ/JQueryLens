@@ -15,7 +15,10 @@ function calculateLeftOutForLeft()
 
 function calculateLeftOutForRight()
 {
-    return parseInt($("#image").css("width")) - parseInt($("#lens").css("width"));
+    return parseInt($("#image").css("width")) - 
+           parseInt($("#lens").css("width")) - 
+           parseInt($("#lens").css("border-left-width")) - 
+           parseInt($("#lens").css("border-right-width"));
 }
 
 function calculateTopOutForTop()
@@ -25,22 +28,27 @@ function calculateTopOutForTop()
 
 function calculateTopOutForBottom()
 {
-    return parseInt($("#image").css("height")) - parseInt($("#lens").css("height")) - parseInt($("#image").css("border-bottom-width")) + parseInt($("#image").css("border-top-width"));
+    return parseInt($("#image").css("height")) - 
+           parseInt($("#lens").css("height")) - 
+           parseInt($("#image").css("border-bottom-width")) + 
+           parseInt($("#image").css("border-top-width")) - 
+           parseInt($("#lens").css("border-bottom-width")) - 
+           parseInt($("#lens").css("border-top-width"));
 }
 
 function mouseOverImage(e)
 {
-    var ImageHeight = parseInt($("#image").css("height"));
-    var ImageLeft = parseInt($("#image").css("left"));
-    var ImageTop = parseInt($("#image").css("top"));
-    var ImageWidth = parseInt($("#image").css("width"));
-    var LensMiddleHeight = parseInt($("#lens").css("height"))/2;
-    var LensMiddleWidth = parseInt($("#lens").css("width"))/2;
+    var imageHeight = parseInt($("#image").css("height"));
+    var imageLeft = parseInt($("#image").css("left"));
+    var imageTop = parseInt($("#image").css("top"));
+    var imageWidth = parseInt($("#image").css("width"));
+    var lensMiddleHeight = parseInt($("#lens").css("height"))/2;
+    var lensMiddleWidth = parseInt($("#lens").css("width"))/2;
 
-    var isInBottomQuadrant = ImageTop + LensMiddleHeight;
-    var isInTopQuadrant = ImageTop + ImageHeight - LensMiddleHeight;
-    var isInLeftQuadrant = ImageLeft + LensMiddleWidth;
-    var isInRightQuadrant = ImageLeft + ImageWidth - LensMiddleWidth;
+    var isInBottomQuadrant = imageTop + lensMiddleHeight;
+    var isInTopQuadrant = imageTop + imageHeight - lensMiddleHeight;
+    var isInLeftQuadrant = imageLeft + lensMiddleWidth;
+    var isInRightQuadrant = imageLeft + imageWidth - lensMiddleWidth;
 
     if (e.pageY >= isInBottomQuadrant && e.pageY <= isInTopQuadrant && e.pageX >= isInLeftQuadrant && e.pageX <= isInRightQuadrant)
     {
@@ -69,7 +77,20 @@ function mouseOverImage(e)
     }
 }
 
+function setLargeImage()
+{
+    $("#view").css({"left" : 4*(-parseInt($("#lens").css("left")))});
+    $("#view").css({"top" : 4*(-parseInt($("#lens").css("top")))});
+}
+
 $(document).ready(function()
 {
-    $('#image').mousemove(mouseOverImage);
+    $("#large-image").css({"height" : 4*parseInt($("#lens").css("height"))});
+    $("#large-image").css({"width" : 4*parseInt($("#lens").css("width"))});
+
+    $("#view").css({"height" : 4*parseInt($("#image").css("height"))});
+    $("#view").css({"width" : 4*parseInt($("#image").css("width"))});
+
+    $("#image").mousemove(mouseOverImage);
+    $("#lens").mousemove(setLargeImage);
 });
