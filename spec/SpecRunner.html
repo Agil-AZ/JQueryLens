@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Cuore Test Runner</title>
+        <link rel="shortcut icon" type="image/png" href="../vendor/jasmine-1.1.0/jasmine_favicon.png">
+        <link rel="stylesheet" type="text/css" href="../vendor/jasmine-1.1.0/jasmine.css">
+
+        <!-- include Cuore lib files here. -->
+        <script src="../vendor/jasmine-1.1.0/jasmine.js" type="text/javascript"></script>
+        <script src="../vendor/jasmine-1.1.0/jasmine-html.js" type="text/javascript"></script>
+        <!-- end Cuore lib files -->
+
+        <!-- include Cuore source files here... -->
+        <script src="../js/JQueryLens.js" type="text/javascript"></script>
+        <!-- end Cuore source files -->
+
+        <!-- include Cuore spec files here... -->
+        <script src="JQueryLensSpec.js" type="text/javascript"></script>
+        <!-- end Cuore spec files -->
+
+        <script type="text/javascript">
+            (function() {
+                var jasmineEnv = jasmine.getEnv();
+                jasmineEnv.updateInterval = 1000;
+
+                var trivialReporter = new jasmine.TrivialReporter();
+
+                jasmineEnv.addReporter(trivialReporter);
+
+                jasmineEnv.specFilter = function(spec) {
+                    return trivialReporter.specFilter(spec);
+                };
+
+                var currentWindowOnload = window.onload;
+
+                window.onload = function() {
+                    if (currentWindowOnload) {
+                        currentWindowOnload();
+                    }
+                    execJasmine();
+                };
+
+                function execJasmine() {
+                    jasmineEnv.execute();
+                }
+          })();
+        </script>
+    </head>
+    <body>
+        <div id="xhtmlToTest">&nbsp;</div>
+    </body>
+</html>
