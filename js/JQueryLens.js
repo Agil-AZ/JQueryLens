@@ -1,96 +1,109 @@
-function calculateLeftIn(e)
-{
-    return e.pageX-parseInt($("#lens").css("width"))/2 - parseInt($("#image").css("left"));
-}
+JQueryLens = { 
 
-function calculateTopIn(e)
-{
-    return e.pageY-parseInt($("#lens").css("height"))/2 - parseInt($("#image").css("top"));
-}
+	width: 1,
+	height: 1,
 
-function calculateLeftOutForLeft()
-{
-    return 0;
-}
+	divId: "#lens",
+	thumbnail: { divId: "#thumbnail" },
+	realsize: { divId: "#realsize" },
 
-function calculateLeftOutForRight()
-{
-    return parseInt($("#image").css("width")) - 
-           parseInt($("#lens").css("width")) - 
-           parseInt($("#lens").css("border-left-width")) - 
-           parseInt($("#lens").css("border-right-width"));
-}
+	setWidth: function(newWidth) {
+		this.width = newWidth;
+	},
 
-function calculateTopOutForTop()
-{
-    return 0;
-}
+	setHeight: function(newHeight) {
+		this.height = newHeight;
+	},
 
-function calculateTopOutForBottom()
-{
-    return parseInt($("#image").css("height")) - 
-           parseInt($("#lens").css("height")) - 
-           parseInt($("#image").css("border-bottom-width")) + 
-           parseInt($("#image").css("border-top-width")) - 
-           parseInt($("#lens").css("border-bottom-width")) - 
-           parseInt($("#lens").css("border-top-width"));
-}
+	calculateLeftIn: function(e) {
+		return e.pageX-parseInt($("#lens").css("width"))/2 - parseInt($("#image").css("left"));
+	},
 
-function mouseOverImage(e)
-{
-    var imageHeight = parseInt($("#image").css("height"));
-    var imageLeft = parseInt($("#image").css("left"));
-    var imageTop = parseInt($("#image").css("top"));
-    var imageWidth = parseInt($("#image").css("width"));
-    var lensMiddleHeight = parseInt($("#lens").css("height"))/2;
-    var lensMiddleWidth = parseInt($("#lens").css("width"))/2;
+	calculateTopIn: function(e) {
+		return e.pageY-parseInt($("#lens").css("height"))/2 - parseInt($("#image").css("top"));
+	},
 
-    var isInBottomQuadrant = imageTop + lensMiddleHeight;
-    var isInTopQuadrant = imageTop + imageHeight - lensMiddleHeight;
-    var isInLeftQuadrant = imageLeft + lensMiddleWidth;
-    var isInRightQuadrant = imageLeft + imageWidth - lensMiddleWidth;
+	calculateLeftOutForLeft: function() {
+		return 0;
+	},
 
-    if (e.pageY >= isInBottomQuadrant && e.pageY <= isInTopQuadrant && e.pageX >= isInLeftQuadrant && e.pageX <= isInRightQuadrant)
-    {
-        $("#lens").css({"left" : calculateLeftIn(e)});
-        $("#lens").css({"top" : calculateTopIn(e)});
-    }
+	calculateLeftOutForRight: function() {
+		return parseInt($("#image").css("width")) - 
+			parseInt($("#lens").css("width")) - 
+			parseInt($("#lens").css("border-left-width")) - 
+			parseInt($("#lens").css("border-right-width"));
+	},
 
-    if (e.pageY < isInBottomQuadrant)
-    {
-        $("#lens").css({"top" : calculateTopOutForTop()});
-    }
+	calculateTopOutForTop: function() {
+		return 0;
+	},
 
-    if (e.pageY > isInTopQuadrant)
-    {
-        $("#lens").css({"top" : calculateTopOutForBottom()});
-    }
+	calculateTopOutForBottom: function() {
+		return parseInt($("#image").css("height")) - 
+			parseInt($("#lens").css("height")) - 
+			parseInt($("#image").css("border-bottom-width")) + 
+			parseInt($("#image").css("border-top-width")) - 
+			parseInt($("#lens").css("border-bottom-width")) - 
+			parseInt($("#lens").css("border-top-width"));
+	},
 
-    if (e.pageX < isInLeftQuadrant)
-    {
-        $("#lens").css({"left" : calculateLeftOutForLeft()});
-    }
+	mouseOverImage: function(e) {
+		var imageHeight = parseInt($("#image").css("height"));
+		var imageLeft = parseInt($("#image").css("left"));
+		var imageTop = parseInt($("#image").css("top"));
+		var imageWidth = parseInt($("#image").css("width"));
+		var lensMiddleHeight = parseInt($("#lens").css("height"))/2;
+		var lensMiddleWidth = parseInt($("#lens").css("width"))/2;
 
-    if (e.pageX > isInRightQuadrant)
-    {
-        $("#lens").css({"left" : calculateLeftOutForRight()});
-    }
-}
+		var isInBottomQuadrant = imageTop + lensMiddleHeight;
+		var isInTopQuadrant = imageTop + imageHeight - lensMiddleHeight;
+		var isInLeftQuadrant = imageLeft + lensMiddleWidth;
+		var isInRightQuadrant = imageLeft + imageWidth - lensMiddleWidth;
 
-function setLargeImage()
-{
-    $("#view").css({"left" : 4*(-parseInt($("#lens").css("left")))});
-    $("#view").css({"top" : 4*(-parseInt($("#lens").css("top")))});
-}
+		if (e.pageY >= isInBottomQuadrant && e.pageY <= isInTopQuadrant && e.pageX >= isInLeftQuadrant && e.pageX <= isInRightQuadrant)
+		{
+			$("#lens").css({"left" : this.calculateLeftIn(e)});
+			$("#lens").css({"top" : this.calculateTopIn(e)});
+		}
 
-$(document).ready(function()
-{
-    $("#lens").css({"height" : parseInt($("#large-image").css("height"))/4});
-    $("#lens").css({"width" : parseInt($("#large-image").css("width"))/4});
+		if (e.pageY < isInBottomQuadrant)
+		{
+			$("#lens").css({"top" : this.calculateTopOutForTop()});
+		}
 
-    //$("#view").css({"height" : 4*parseInt($("#image").css("height"))});
-    //$("#view").css({"width" : 4*parseInt($("#image").css("width"))});
+		if (e.pageY > isInTopQuadrant)
+		{
+			$("#lens").css({"top" : this.calculateTopOutForBottom()});
+		}
 
-    $("#image").mousemove(mouseOverImage);
-    $("#lens").mousemove(setLargeImage);
-});
+		if (e.pageX < isInLeftQuadrant)
+		{
+			$("#lens").css({"left" : this.calculateLeftOutForLeft()});
+		}
+
+		if (e.pageX > isInRightQuadrant)
+		{
+			$("#lens").css({"left" : this.calculateLeftOutForRight()});
+		}
+
+		this.setLargeImage();
+	},
+
+	setLargeImage: function() {
+		$("#view").css({"left" : 4*(-parseInt($("#lens").css("left")))});
+		$("#view").css({"top" : 4*(-parseInt($("#lens").css("top")))});
+	},
+
+	resizeLensRespectLargeImage: function() {
+		$("#lens").css({"height" : parseInt($("#large-image").css("height"))/4});
+		$("#lens").css({"width" : parseInt($("#large-image").css("width"))/4});
+	},
+
+	on_document_ready: function() {
+		this.resizeLensRespectLargeImage();
+		$("#image").mousemove(this.mouseOverImage);
+	}
+
+};
+
+//$(document).ready(new JQueryLens().on_document_ready);
