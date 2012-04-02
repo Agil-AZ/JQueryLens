@@ -6,13 +6,6 @@ describe("The JQueryLens", function () {
 		JQueryLens.init({});
 	});
 
-	it("has a width and a height", function () {
-		var aLens = JQueryLens;
-
-		expect(aLens.width).toBeDefined();
-		expect(aLens.height).toBeDefined();
-	});
-
 	it("can change its width and height", function () {
 		var aWidth = 130;
 		var aHeight = 140;
@@ -24,14 +17,39 @@ describe("The JQueryLens", function () {
 		expect(aLens.height).toBe(aHeight);
 	});
 
-	it("can be initialized with width and height", function () {
+	it("has default values for its fields", function () {
+		var aLens = JQueryLens;
+
+		expect(aLens.width).toBe(1);
+		expect(aLens.height).toBe(1);
+		expect(aLens.zoom).toBe(4);
+		expect(aLens.divId).toBe("#lens");
+		expect(aLens.thumbnail.divId).toBe("#thumbnail");
+		expect(aLens.realsize.divId).toBe("#realsize");
+	});
+
+	it("can be initialized with values for its fields", function () {
 		var aWidth = 130;
 		var aHeight = 140;
+		var aZoom = 10;
+		var anotherDivId = "anotherId";
+
 		var aLens = JQueryLens;
-		aLens.init({width: aWidth, height: aHeight});
+		aLens.init({
+			width:     aWidth, 
+			height:    aHeight,
+			zoom:      aZoom,
+			divId:     anotherDivId,
+			thumbnail: { divId: anotherDivId },
+			realsize:  { divId: anotherDivId }
+		});
 
 		expect(aLens.width).toBe(aWidth);
 		expect(aLens.height).toBe(aHeight);
+		expect(aLens.zoom).toBe(aZoom);
+		expect(aLens.divId).toBe(anotherDivId);
+		expect(aLens.thumbnail.divId).toBe(anotherDivId);
+		expect(aLens.realsize.divId).toBe(anotherDivId);
 	});
 
 	it("has div ids for the own lens, the thumbnail and the realsize image with proper default values", function () {

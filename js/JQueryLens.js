@@ -1,11 +1,16 @@
 JQueryLens = { 
 
 	init: function(params) {
-		this.width = params.width ? params.width : 1;
-		this.height = params.height ? params.height : 1;
-		this.divId = "#lens";
-		this.thumbnail = { divId: "#thumbnail" };
-		this.realsize = { divId: "#realsize" };
+		this.width     = params.width  ? params.width  : 1;
+		this.height    = params.height ? params.height : 1;
+		this.zoom      = params.zoom   ? params.zoom   : 4;
+		this.divId     = params.divId  ? params.divId  : "#lens";
+		this.thumbnail = params.thumbnail 
+			? params.thumbnail   
+			: { divId: "#thumbnail" };
+		this.realsize  = params.realsize   
+			? params.realsize
+			: { divId: "#realsize" };
 	},
 
 	updateView: function() {
