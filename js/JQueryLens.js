@@ -1,7 +1,7 @@
 JQueryLens = { 
 
 	init: function(params) {
-		this._zoom    = params.zoom ? params.zoom : 4;
+		this._zoom   = params.zoom ? params.zoom : 4;
 		this.locator = params.locator 
 			? params.locator 
 			: { id: "#locator" };
@@ -51,92 +51,82 @@ JQueryLens = {
 		});
 	},
 
-	calculateLeftIn: function(e) {
-		return e.pageX-parseInt($("#locator").css("width"))/2 - parseInt($("#image").css("left"));
+	getDifference: function(innerDiv, outerDiv) {
+		return {
+			vertical: outerDiv.height() - innerDiv.height(),
+			horizontal: outerDiv.width() - innerDiv.width(),
+		};
 	},
 
-	calculateTopIn: function(e) {
-		return e.pageY-parseInt($("#locator").css("height"))/2 - parseInt($("#image").css("top"));
+	getLimits: function(innerDiv, outerDiv) {
+		var outerTop = outerDiv.position().top;
+		var outerLeft = outerDiv.position().left;
+		var difference = this.getDifference(innerDiv, outerDiv);
+		return {
+			minTop: outerTop,
+			maxTop: outerTop + difference.vertical,
+			minLeft: outerLeft,
+			maxLeft: outerLeft + difference.horizontal
+		};
 	},
 
-	calculateLeftOutForLeft: function() {
-		return 0;
+	locatorLimits: function() {
+		return this.getLimits($(this.locator.id), $(this.thumbnail.id));
 	},
 
-	calculateLeftOutForRight: function() {
-		return parseInt($("#image").css("width")) - 
-			parseInt($("#locator").css("width")) - 
-			parseInt($("#locator").css("border-left-width")) - 
-			parseInt($("#locator").css("border-right-width"));
+	adjust: function(position, limits) {
+		if (position.top < limits.minTop)
+			position.top = limits.minTop;
+
+		if (position.top > limits.maxTop)
+			position.top = limits.maxTop;
+
+		if (position.left < limits.minLeft)
+			position.left = limits.minLeft;
+
+		if (position.left > limits.maxLeft)
+			position.left = limits.maxLeft;
+
+		return position;
 	},
 
-	calculateTopOutForTop: function() {
-		return 0;
+	adjustLocatorPosition: function() {
+		var locator = $(this.locator.id);
+
+		var position = {
+			top: locator.offset().top,
+			left: locator.offset().left
+		};
+
+		var adjustedPosition = this.adjust(position, this.locatorLimits());
+
+		locator.offset(adjustedPosition);
 	},
 
-	calculateTopOutForBottom: function() {
-		return parseInt($("#image").css("height")) - 
-			parseInt($("#locator").css("height")) - 
-			parseInt($("#image").css("border-bottom-width")) + 
-			parseInt($("#image").css("border-top-width")) - 
-			parseInt($("#locator").css("border-bottom-width")) - 
-			parseInt($("#locator").css("border-top-width"));
+	refreshLocatorInThumbnail: function(x, y) {
+		var locator = $(this.locator.id);
+
+		locator.offset({
+			top: y - locator.height()/2,
+			left: x - locator.width()/2
+		});
+
+		this.adjustLocatorPosition();
+		this.refreshImageInLens();
 	},
 
 	mouseOverImage: function(e) {
-		var imageHeight = parseInt($("#image").css("height"));
-		var imageLeft = parseInt($("#image").css("left"));
-		var imageTop = parseInt($("#image").css("top"));
-		var imageWidth = parseInt($("#image").css("width"));
-		var lensMiddleHeight = parseInt($("#locator").css("height"))/2;
-		var lensMiddleWidth = parseInt($("#locator").css("width"))/2;
-
-		var isInBottomQuadrant = imageTop + lensMiddleHeight;
-		var isInTopQuadrant = imageTop + imageHeight - lensMiddleHeight;
-		var isInLeftQuadrant = imageLeft + lensMiddleWidth;
-		var isInRightQuadrant = imageLeft + imageWidth - lensMiddleWidth;
-
-		if (e.pageY >= isInBottomQuadrant && e.pageY <= isInTopQuadrant && e.pageX >= isInLeftQuadrant && e.pageX <= isInRightQuadrant)
-		{
-			$("#locator").css({"left" : this.calculateLeftIn(e)});
-			$("#locator").css({"top" : this.calculateTopIn(e)});
-		}
-
-		if (e.pageY < isInBottomQuadrant)
-		{
-			$("#locator").css({"top" : this.calculateTopOutForTop()});
-		}
-
-		if (e.pageY > isInTopQuadrant)
-		{
-			$("#locator").css({"top" : this.calculateTopOutForBottom()});
-		}
-
-		if (e.pageX < isInLeftQuadrant)
-		{
-			$("#locator").css({"left" : this.calculateLeftOutForLeft()});
-		}
-
-		if (e.pageX > isInRightQuadrant)
-		{
-			$("#locator").css({"left" : this.calculateLeftOutForRight()});
-		}
-
-		this.setLargeImage();
-	},
-
-	setLargeImage: function() {
-		$("#lens img").css({"left" : 4*(-parseInt($("#locator").css("left")))});
-		$("#lens img").css({"top" : 4*(-parseInt($("#locator").css("top")))});
+		this.refreshLocatorInThumbnail(e.pageX, e.pageY);
 	},
 
 	on_document_ready: function() {
-		this.resize();
-		$("#image").mousemove(this.mouseOverImage);
+		this.image.mousemove(this.mouseOverImage);
 	}
 
 };
 
-//$(document).ready(new JQueryLens().on_document_ready);
+JQueryLens.init({
+	
+});
 
-JQueryLens.init();
+$(document).ready(JQueryLens.on_document_ready);

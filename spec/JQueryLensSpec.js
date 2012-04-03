@@ -7,51 +7,45 @@ describe("The JQueryLens", function () {
 		JQueryLens.init({});
 	});
 
-	it("cannot change nor query its width, height and zoom", function () {
-		var aLens = JQueryLens;
-
-		expect(aLens.setWidth).toBeUndefined();
-		expect(aLens.setHeight).toBeUndefined();
-		expect(aLens.setZoom).toBeUndefined();
-		expect(aLens.width).toBeUndefined();
-		expect(aLens.height).toBeUndefined();
-		expect(aLens.zoom).toBeUndefined();
+	it("cannot change not query its width, height and zoom", function () {
+		expect(JQueryLens.setWidth).toBeUndefined();
+		expect(JQueryLens.setHeight).toBeUndefined();
+		expect(JQueryLens.setZoom).toBeUndefined();
+		expect(JQueryLens.width).toBeUndefined();
+		expect(JQueryLens.height).toBeUndefined();
+		expect(JQueryLens.zoom).toBeUndefined();
 	});
 
 	it("has default values for its fields", function () {
-		var aLens = JQueryLens;
-
-		expect(aLens.lens.id).toBe("#lens");
-		expect(aLens.thumbnail.id).toBe("#thumbnail");
-		expect(aLens.locator.id).toBe("#locator");
+		expect(JQueryLens.lens.id).toBe("#lens");
+		expect(JQueryLens.thumbnail.id).toBe("#thumbnail");
+		expect(JQueryLens.locator.id).toBe("#locator");
 	});
 
 	it("can be initialized with values for its fields", function () {
 		var anotherDivId = "anotherId";
 
-		var aLens = JQueryLens;
-		aLens.init({
+		JQueryLens.init({
 			locator:   { id: anotherDivId },
 			thumbnail: { id: anotherDivId },
 			lens:  	   { id: anotherDivId }
 		});
 
-		expect(aLens.locator.id).toBe(anotherDivId);
-		expect(aLens.thumbnail.id).toBe(anotherDivId);
-		expect(aLens.lens.id).toBe(anotherDivId);
+		expect(JQueryLens.locator.id).toBe(anotherDivId);
+		expect(JQueryLens.thumbnail.id).toBe(anotherDivId);
+		expect(JQueryLens.lens.id).toBe(anotherDivId);
 	});
 
 	it("has locator with same proportion than lens", function () {
 		var aWidth = 800;
 		var aHeight = 600;
-		var aLens = JQueryLens;
-		var lensDiv = $(aLens.lens.id);
-		var locatorDiv = $(aLens.locator.id);
+		var lensDiv = $(JQueryLens.lens.id);
+		var locatorDiv = $(JQueryLens.locator.id);
 
 		lensDiv.width(aWidth);
 		lensDiv.height(aHeight);
 
-		aLens.resizeLocator();
+		JQueryLens.resizeLocator();
 
 		expect(locatorDiv.width() / locatorDiv.height()).toBe(aWidth / aHeight);
 	});
@@ -60,13 +54,12 @@ describe("The JQueryLens", function () {
 		var aWidth = 800;
 		var aHeight = 600;
 		var aZoom = 5;
-		var aLens = JQueryLens;
-		var lensDiv = $(aLens.lens.id);
-		var locatorDiv = $(aLens.locator.id);
+		var lensDiv = $(JQueryLens.lens.id);
+		var locatorDiv = $(JQueryLens.locator.id);
 
 		lensDiv.width(aWidth);
 		lensDiv.height(aHeight);
-		aLens.init({zoom: aZoom});
+		JQueryLens.init({zoom: aZoom});
 
 		expect(locatorDiv.width()).toBe(aWidth / aZoom);
 		expect(locatorDiv.height()).toBe(aHeight / aZoom);
@@ -80,8 +73,7 @@ describe("The JQueryLens", function () {
 		image.height(500);
 		thumbnailDiv.width(200);
 
-		var aLens = JQueryLens;
-		aLens.init({});
+		JQueryLens.init({});
 
 		expect(thumbnailDiv.width() / thumbnailDiv.height()).toBe(image.width() / image.height());
 	});
@@ -145,6 +137,108 @@ describe("The JQueryLens", function () {
 			expect(JQueryLens.image.position()).toEqual(scenario.expectedImagePosition);			
 		}
 
+	});
+
+	it("sets locator position when mouse is inside thumbnail", function() {
+		var thumbnailDiv = $(JQueryLens.thumbnail.id);
+		var locatorDiv = $(JQueryLens.locator.id);
+		var lensDiv = $(JQueryLens.lens.id);
+		var image = JQueryLens.image;
+
+		thumbnailDiv.width(200);
+		thumbnailDiv.offset({top:100,left:50})
+		lensDiv.width(400);
+		lensDiv.height(200);
+		image.width(1000);
+		image.height(500);
+
+		JQueryLens.init({zoom: 4});
+
+		var scenarios = [
+			{
+				mouse: {x:150, y:150},
+				expectedLocatorPosition: {top:125, left:100}
+			},
+			{
+				mouse: {x:150, y:125},
+				expectedLocatorPosition: {top:100, left:100}
+			},
+			{
+				mouse: {x:150, y:100},
+				expectedLocatorPosition: {top:100, left:100}
+			},
+			{
+				mouse: {x:150, y:50},
+				expectedLocatorPosition: {top:100, left:100}
+			},
+			{
+				mouse: {x:150, y:175},
+				expectedLocatorPosition: {top:150, left:100}
+			},
+			{
+				mouse: {x:150, y:200},
+				expectedLocatorPosition: {top:150, left:100}
+			},
+			{
+				mouse: {x:150, y:250},
+				expectedLocatorPosition: {top:150, left:100}
+			},
+			{
+				mouse: {x:100, y:150},
+				expectedLocatorPosition: {top:125, left:50}
+			},
+			{
+				mouse: {x:75, y:150},
+				expectedLocatorPosition: {top:125, left:50}
+			},
+			{
+				mouse: {x:200, y:150},
+				expectedLocatorPosition: {top:125, left:150}
+			},
+			{
+				mouse: {x:250, y:150},
+				expectedLocatorPosition: {top:125, left:150}
+			}
+		];
+
+		for (var index in scenarios) {
+			var scenario = scenarios[index];
+
+			JQueryLens.refreshLocatorInThumbnail(scenario.mouse.x, scenario.mouse.y);
+
+			expect(locatorDiv.offset()).toEqual(scenario.expectedLocatorPosition);
+		}
+	});
+
+	it("moves image in lens when mouse moves in thumbnail", function() {
+		var thumbnailDiv = $(JQueryLens.thumbnail.id);
+		var locatorDiv = $(JQueryLens.locator.id);
+		var lensDiv = $(JQueryLens.lens.id);
+		var image = JQueryLens.image;
+
+		thumbnailDiv.width(200);
+		thumbnailDiv.offset({top:100,left:50})
+		lensDiv.width(400);
+		lensDiv.height(200);
+		image.width(1000);
+		image.height(500);
+
+		JQueryLens.init({zoom: 4});
+
+		var scenarios = [
+			{
+				mouse: {x:150, y:150},
+				expectedImagePosition: {top:-150, left:-300}
+			}
+		];
+
+		for (var index in scenarios) {
+			var scenario = scenarios[index];
+
+			JQueryLens.refreshLocatorInThumbnail(scenario.mouse.x, scenario.mouse.y);
+
+			expect(image.position()).toEqual(scenario.expectedImagePosition);
+		}
 	});
 
 });
