@@ -86,4 +86,65 @@ describe("The JQueryLens", function () {
 		expect(thumbnailDiv.width() / thumbnailDiv.height()).toBe(image.width() / image.height());
 	});
 
+	it("sets image position according to locator position in thumbnail", function () {
+
+		var layout = function(scenario) {
+			var thumbnailDiv = $(JQueryLens.thumbnail.id);
+			var locatorDiv = $(JQueryLens.locator.id);
+			var lensDiv = $(JQueryLens.lens.id);
+			var image = JQueryLens.image;
+			thumbnailDiv.width(scenario.thumbnailWidth);
+			lensDiv.width(scenario.lensWidth);
+			lensDiv.height(scenario.lensHeight);
+			image.width(scenario.imageWidth);
+			image.height(scenario.imageHeight);
+			JQueryLens.init({zoom: scenario.zoom});
+			locatorDiv.offset(scenario.locatorPosition);
+		};
+
+		var scenarios = [ 
+			{
+				thumbnailWidth:  200,
+				lensWidth: 400,
+				lensHeight: 200,
+				imageWidth: 1000,
+				imageHeight: 500,
+				zoom: 4,
+				locatorPosition: {top: 10, left: 25},
+				expectedImagePosition: {top: -60, left: -150}
+			},
+			{
+				thumbnailWidth:  200,
+				lensWidth: 400,
+				lensHeight: 200,
+				imageWidth: 1000,
+				imageHeight: 500,
+				zoom: 4,
+				locatorPosition: {top: 0, left: 0},
+				expectedImagePosition: {top: 0, left: 0}
+			},
+			{
+				thumbnailWidth:  200,
+				lensWidth: 400,
+				lensHeight: 200,
+				imageWidth: 1000,
+				imageHeight: 500,
+				zoom: 4,
+				locatorPosition: {top: 50, left: 100},
+				expectedImagePosition: {top: -300, left: -600}
+			}
+		];
+
+		for (var index in scenarios) {
+			var scenario = scenarios[index];
+
+			layout(scenario);
+
+			JQueryLens.refreshImageInLens();
+
+			expect(JQueryLens.image.position()).toEqual(scenario.expectedImagePosition);			
+		}
+
+	});
+
 });

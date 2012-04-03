@@ -32,6 +32,25 @@ JQueryLens = {
 		thumbnail.height(thumbnail.width() * imageHeight / imageWidth);
 	},
 
+	getRange: function(elem1, elem2) {
+		return {
+			vertical:   elem2.height() - elem1.height(),
+			horizontal: elem2.width() - elem1.width(),
+		};
+	},
+
+	refreshImageInLens: function() {
+		var locator = $(this.locator.id);
+		var thumbnail = $(this.thumbnail.id);
+		var lens = $(this.lens.id);
+		var lensRange = this.getRange(lens, this.image);
+		var locatorRange = this.getRange(locator, thumbnail);
+		this.image.offset({
+			top: -(locator.position().top * lensRange.vertical / locatorRange.vertical),
+			left: -(locator.position().left * lensRange.horizontal / locatorRange.horizontal)
+		});
+	},
+
 	calculateLeftIn: function(e) {
 		return e.pageX-parseInt($("#locator").css("width"))/2 - parseInt($("#image").css("left"));
 	},
