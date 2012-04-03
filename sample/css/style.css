@@ -1,7 +1,6 @@
 #thumbnail
 {
-    border: 1px solid rgba(0,0,0,1);
-    height: 300px;
+    border: 0px solid rgba(0,0,0,1);
     left: 40px;
     position: absolute;
     top: 40px;
@@ -10,13 +9,13 @@
 
 #lens
 {
-    border: 1px solid rgba(0,0,0,1);
-    height: 400px;
-    left: 490px;
+    border: 0px solid rgba(0,0,0,1);
+    height: 500px;
+    left: 500px;
     overflow: hidden;
     position: absolute;
     top: 40px;
-    width: 560px;
+    width: 800px;
 }
 
 #lens img
@@ -29,11 +28,9 @@
     background-color: rgba(255,255,255,0.5);
     border: 0px solid rgba(0,0,0,0.5);
     cursor: pointer;
-    height: 160px;
     left: 0px;
     position: absolute;
     top: 0px;
-    width: 120px;
 }
 
 .resize img 

@@ -46,8 +46,8 @@ JQueryLens = {
 		var lensRange = this.getRange(lens, this.image);
 		var locatorRange = this.getRange(locator, thumbnail);
 		this.image.offset({
-			top: -(locator.position().top * lensRange.vertical / locatorRange.vertical),
-			left: -(locator.position().left * lensRange.horizontal / locatorRange.horizontal)
+			top: lens.position().top - (locator.position().top * lensRange.vertical / locatorRange.vertical),
+			left: lens.position().left - (locator.position().left * lensRange.horizontal / locatorRange.horizontal)
 		});
 	},
 
@@ -119,7 +119,7 @@ JQueryLens = {
 
 $(document).ready(function() {
 	JQueryLens.init({
-		
+
 	});
 	var thumbnail = $(JQueryLens.thumbnail.id);
 	thumbnail.mousemove(function(e) {

@@ -92,6 +92,7 @@ describe("The JQueryLens", function () {
 			image.height(scenario.imageHeight);
 			JQueryLens.init({zoom: scenario.zoom});
 			locatorDiv.offset(scenario.locatorPosition);
+			lensDiv.offset(scenario.lensPosition);
 		};
 
 		var scenarios = [ 
@@ -102,6 +103,7 @@ describe("The JQueryLens", function () {
 				imageWidth: 1000,
 				imageHeight: 500,
 				zoom: 4,
+				lensPosition: {top: 0, left: 0},
 				locatorPosition: {top: 10, left: 25},
 				expectedImagePosition: {top: -60, left: -150}
 			},
@@ -112,6 +114,7 @@ describe("The JQueryLens", function () {
 				imageWidth: 1000,
 				imageHeight: 500,
 				zoom: 4,
+				lensPosition: {top: 0, left: 0},
 				locatorPosition: {top: 0, left: 0},
 				expectedImagePosition: {top: 0, left: 0}
 			},
@@ -122,6 +125,7 @@ describe("The JQueryLens", function () {
 				imageWidth: 1000,
 				imageHeight: 500,
 				zoom: 4,
+				lensPosition: {top: 0, left: 0},
 				locatorPosition: {top: 50, left: 100},
 				expectedImagePosition: {top: -300, left: -600}
 			}
@@ -218,6 +222,7 @@ describe("The JQueryLens", function () {
 
 		thumbnailDiv.width(200);
 		thumbnailDiv.offset({top:100,left:50})
+		lensDiv.offset({top:0,left:0});
 		lensDiv.width(400);
 		lensDiv.height(200);
 		image.width(1000);
@@ -239,6 +244,36 @@ describe("The JQueryLens", function () {
 
 			expect(image.position()).toEqual(scenario.expectedImagePosition);
 		}
+	});
+
+	it("moves image in lens without being affected by position of lens", function() {
+		var thumbnailDiv = $(JQueryLens.thumbnail.id);
+		var locatorDiv = $(JQueryLens.locator.id);
+		var lensDiv = $(JQueryLens.lens.id);
+		var image = JQueryLens.image;
+		var mouse = {x:100, y:50};
+
+		thumbnailDiv.width(200);
+		thumbnailDiv.offset({top:100,left:50})
+		lensDiv.width(400);
+		lensDiv.height(200);
+		image.width(1000);
+		image.height(500);
+
+		JQueryLens.init({zoom: 4});
+
+		var scenario1 = { lensTop: 0,  lensLeft: 0 };
+		var scenario2 = { lensTop: 40, lensLeft: 400 };
+				
+		lensDiv.offset({top: scenario1.lensTop, left: scenario1.lensLeft});
+		JQueryLens.refreshLocatorInThumbnail(mouse.x, mouse.y);
+		var imagePositionScenario1 = image.position();
+
+		lensDiv.offset({top: scenario2.lensTop, left: scenario2.lensLeft});
+		JQueryLens.refreshLocatorInThumbnail(mouse.x, mouse.y);
+		var imagePositionScenario2 = image.position();
+
+		expect(imagePositionScenario2).toEqual(imagePositionScenario1);
 	});
 
 });
