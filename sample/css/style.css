@@ -10,7 +10,7 @@
 #lens
 {
     border: 0px solid rgba(0,0,0,1);
-    height: 500px;
+    height: 600px;
     left: 500px;
     overflow: hidden;
     position: absolute;
@@ -21,6 +21,8 @@
 #lens img
 {
     position: absolute;
+    width: 2000px;
+    height: 1500px;
 }
 
 #locator
@@ -33,9 +35,9 @@
     top: 0px;
 }
 
-.resize img 
+.resize img
 {
     height: 100%;
     position: relative;
     width: 100%;
-}  
+}

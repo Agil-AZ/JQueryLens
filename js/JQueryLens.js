@@ -20,6 +20,12 @@ JQueryLens = {
 
 		this.resizeLocator();
 		this.resizeThumbnail();
+		this.resizeImage();
+	},
+
+	resizeImage: function() {
+		this.image.width(this.thumbnail.width() * this._zoom);
+		this.image.height(this.thumbnail.height() * this._zoom);
 	},
 
 	getIdForImage: function() {
@@ -31,8 +37,8 @@ JQueryLens = {
 	},
 
 	resizeLocator: function() {
-		this.locator.width(this.lens.width()/this._zoom);
-		this.locator.height(this.lens.height()/this._zoom);
+		this.locator.width(this.lens.width() / this._zoom);
+		this.locator.height(this.lens.height() / this._zoom);
 	},
 
 	resizeThumbnail: function() {
@@ -41,19 +47,10 @@ JQueryLens = {
 		this.thumbnail.height(this.thumbnail.width() * imageHeight / imageWidth);
 	},
 
-	getRange: function(elem1, elem2) {
-		return {
-			vertical:   elem2.height() - elem1.height(),
-			horizontal: elem2.width() - elem1.width(),
-		};
-	},
-
 	refreshImageInLens: function() {
-		var lensRange = this.getRange(this.lens, this.image);
-		var locatorRange = this.getRange(this.locator, this.thumbnail);
 		this.image.offset({
-			top: this.lens.position().top - (this.locator.position().top * lensRange.vertical / locatorRange.vertical),
-			left: this.lens.position().left - (this.locator.position().left * lensRange.horizontal / locatorRange.horizontal)
+			top: this.lens.position().top - (this.locator.position().top * this._zoom),
+			left: this.lens.position().left - (this.locator.position().left * this._zoom)
 		});
 	},
 
@@ -115,13 +112,12 @@ JQueryLens = {
 
 		this.adjustLocatorPosition();
 		this.refreshImageInLens();
-	}
-
+	},
 };
 
 $(document).ready(function() {
 	JQueryLens.init({
-		zoom: 5
+		zoom: 4
 	});
 	JQueryLens.thumbnail.mousemove(function(e) {
 		JQueryLens.refreshLocatorInThumbnail(e.pageX, e.pageY);

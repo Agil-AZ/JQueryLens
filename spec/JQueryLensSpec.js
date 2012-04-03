@@ -41,28 +41,21 @@ describe("The JQueryLens", function () {
 	});
 
 	it("has locator with same proportion than lens", function () {
-		var aWidth = 800;
-		var aHeight = 600;
-
-		JQueryLens.lens.width(aWidth);
-		JQueryLens.lens.height(aHeight);
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
 
 		JQueryLens.resizeLocator();
 
-		expect(JQueryLens.locator.width() / JQueryLens.locator.height()).toBe(aWidth / aHeight);
+		expect(JQueryLens.locator.width() / JQueryLens.locator.height()).toBe(800 / 600);
 	});
 
 	it("resizes locator in the proportion the zoom sets when initialized", function () {
-		var aWidth = 800;
-		var aHeight = 600;
-		var aZoom = 5;
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
+		JQueryLens.init({zoom: 4});
 
-		JQueryLens.lens.width(aWidth);
-		JQueryLens.lens.height(aHeight);
-		JQueryLens.init({zoom: aZoom});
-
-		expect(JQueryLens.locator.width()).toBe(aWidth / aZoom);
-		expect(JQueryLens.locator.height()).toBe(aHeight / aZoom);
+		expect(JQueryLens.locator.width()).toBe(800 / 4);
+		expect(JQueryLens.locator.height()).toBe(600 / 4);
 	});
 
 	it("sets thumbnail height according to thumbnail width and the image proportion", function() {
@@ -93,23 +86,23 @@ describe("The JQueryLens", function () {
 
 		var scenarios = [ 
 			{
-				thumbnailWidth:  200,
+				thumbnailWidth: 200,
 				lensWidth: 400,
 				lensHeight: 200,
 				imageWidth: 1000,
 				imageHeight: 500,
-				zoom: 4,
+				zoom: 6,
 				lensPosition: {top: 0, left: 0},
 				locatorPosition: {top: 10, left: 25},
 				expectedImagePosition: {top: -60, left: -150}
 			},
 			{
-				thumbnailWidth:  200,
+				thumbnailWidth: 200,
 				lensWidth: 400,
 				lensHeight: 200,
 				imageWidth: 1000,
 				imageHeight: 500,
-				zoom: 4,
+				zoom: 6,
 				lensPosition: {top: 0, left: 0},
 				locatorPosition: {top: 0, left: 0},
 				expectedImagePosition: {top: 0, left: 0}
@@ -120,7 +113,7 @@ describe("The JQueryLens", function () {
 				lensHeight: 200,
 				imageWidth: 1000,
 				imageHeight: 500,
-				zoom: 4,
+				zoom: 6,
 				lensPosition: {top: 0, left: 0},
 				locatorPosition: {top: 50, left: 100},
 				expectedImagePosition: {top: -300, left: -600}
@@ -214,7 +207,7 @@ describe("The JQueryLens", function () {
 		JQueryLens.image.width(1000);
 		JQueryLens.image.height(500);
 
-		JQueryLens.init({zoom: 4});
+		JQueryLens.init({zoom: 5});
 
 		var scenarios = [
 			{
@@ -258,4 +251,18 @@ describe("The JQueryLens", function () {
 		expect(imagePositionScenario2).toEqual(imagePositionScenario1);
 	});
 
+	it("resizes image on lens depending of zoom", function() {
+		JQueryLens.thumbnail.width(400);
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
+		JQueryLens.image.width(1600);
+		JQueryLens.image.height(1200);		
+
+		var zoom=6;
+
+		JQueryLens.init({zoom: zoom});
+
+		expect(JQueryLens.image.width()/JQueryLens.thumbnail.width()).toEqual(zoom);
+		expect(JQueryLens.image.height()/JQueryLens.thumbnail.height()).toEqual(zoom);
+	});
 });
