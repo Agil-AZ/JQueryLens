@@ -113,20 +113,16 @@ JQueryLens = {
 
 		this.adjustLocatorPosition();
 		this.refreshImageInLens();
-	},
-
-	mouseOverImage: function(e) {
-		this.refreshLocatorInThumbnail(e.pageX, e.pageY);
-	},
-
-	on_document_ready: function() {
-		this.image.mousemove(this.mouseOverImage);
 	}
 
 };
 
-JQueryLens.init({
-	
+$(document).ready(function() {
+	JQueryLens.init({
+		
+	});
+	var thumbnail = $(JQueryLens.thumbnail.id);
+	thumbnail.mousemove(function(e) {
+		JQueryLens.refreshLocatorInThumbnail(e.pageX, e.pageY);
+	});
 });
-
-$(document).ready(JQueryLens.on_document_ready);
