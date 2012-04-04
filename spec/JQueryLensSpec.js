@@ -334,4 +334,25 @@ describe("The JQueryLens", function () {
 
 		expect(JQueryLens.image.offset()).toEqual(scenario1.expectedImagePosition);
 	});
+
+	it("resizes locator on thumbnail when assigns a border to locator", function() {
+		JQueryLens.thumbnail.width(400);
+		JQueryLens.thumbnail.offset({top:40, left:40});
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
+		JQueryLens.lens.offset({top:40, left:500});
+		JQueryLens.image.width(1600);
+		JQueryLens.image.height(1200);
+
+		var zoom = 4;
+		var scenario1 = {expectedLocatorPosition:{top:130, left:220}}
+
+		JQueryLens.image.offset({top:JQueryLens.image.top, left:JQueryLens.image.left});
+		JQueryLens.locator.css({border:"10px solid #000"});
+
+		JQueryLens.init({zoom: zoom});
+		JQueryLens.refreshLocatorInThumbnail(340, 215);
+
+		expect(JQueryLens.locator.offset()).toEqual(scenario1.expectedLocatorPosition);
+	})
 });

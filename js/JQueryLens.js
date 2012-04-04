@@ -81,8 +81,8 @@ JQueryLens = {
 
 	getDifference: function(innerDiv, outerDiv) {
 		return {
-			vertical: outerDiv.height() - innerDiv.height(),
-			horizontal: outerDiv.width() - innerDiv.width(),
+			vertical: outerDiv.height() - innerDiv.height() - this.getBorder(innerDiv)*2,
+			horizontal: outerDiv.width() - innerDiv.width() - this.getBorder(innerDiv)*2,
 		};
 	},
 
@@ -131,8 +131,8 @@ JQueryLens = {
 
 	refreshLocatorInThumbnail: function(x, y) {
 		this.locator.offset({
-			top: y - this.locator.height()/2,
-			left: x - this.locator.width()/2
+			top: y - (this.locator.height() + this.getBorder(this.locator) * 2) / 2,
+			left: x - (this.locator.width() + this.getBorder(this.locator) * 2) / 2
 		});
 
 		this.adjustLocatorPosition();
