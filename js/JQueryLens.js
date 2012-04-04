@@ -23,17 +23,24 @@ JQueryLens = {
 		this.resizeImage();
 	},
 
-	resizeImage: function() {
-		this.image.width(this.thumbnail.width() * this._zoom);
-		this.image.height(this.thumbnail.height() * this._zoom);
-	},
-
 	getIdForImage: function() {
 		return this.getElement(this.lens.attr("id") + " img");
 	},
 
 	getElement: function(id) {
 		return $("#" + id);
+	},
+
+	moveLocator: function() {
+		this.locator.offset({
+			top: this.locator.offset().top + parseInt(this.thumbnail.css("border-left-width")),
+			left: this.locator.offset().left + parseInt(this.thumbnail.css("border-left-width"))
+		});
+	},
+
+	resizeImage: function() {
+		this.image.width(this.thumbnail.width() * this._zoom);
+		this.image.height(this.thumbnail.height() * this._zoom);
 	},
 
 	resizeLocator: function() {
@@ -112,6 +119,7 @@ JQueryLens = {
 
 		this.adjustLocatorPosition();
 		this.refreshImageInLens();
+		this.moveLocator();
 	},
 };
 

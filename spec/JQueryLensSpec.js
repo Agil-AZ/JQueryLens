@@ -260,13 +260,37 @@ describe("The JQueryLens", function () {
 		JQueryLens.lens.width(800);
 		JQueryLens.lens.height(600);
 		JQueryLens.image.width(1600);
-		JQueryLens.image.height(1200);		
+		JQueryLens.image.height(1200);	
 
-		var zoom=6;
+		var zoom = 6;
 
 		JQueryLens.init({zoom: zoom});
 
 		expect(JQueryLens.image.width()/JQueryLens.thumbnail.width()).toEqual(zoom);
 		expect(JQueryLens.image.height()/JQueryLens.thumbnail.height()).toEqual(zoom);
+	});
+
+	it("moves locator in thumbnail when assigns a border to thumbnail", function() {
+		JQueryLens.thumbnail.width(400);
+		JQueryLens.thumbnail.offset({top:40, left:40});
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
+		JQueryLens.lens.offset({top:40, left:500});
+		JQueryLens.image.width(1600);
+		JQueryLens.image.height(1200);
+
+		var zoom = 4;
+		var scenario1 = {
+							locatorAbsolutePosition:{top:40, left:40}, 
+							expectedLocatorPosition:{top:0, left:0}
+						}
+
+		JQueryLens.locator.offset({top:scenario1.locatorAbsolutePosition.top, left:scenario1.locatorAbsolutePosition.left});
+		JQueryLens.thumbnail.css({border:"10px solid #000"});
+
+		JQueryLens.init({zoom: zoom});
+		JQueryLens.refreshLocatorInThumbnail(140, 115);
+
+		expect(JQueryLens.locator.position()).toEqual(scenario1.expectedLocatorPosition);
 	});
 });
