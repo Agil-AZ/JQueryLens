@@ -199,13 +199,13 @@ describe("The JQueryLens", function () {
 	});
 
 	it("moves image in lens when mouse moves in thumbnail", function() {
-		JQueryLens.thumbnail.width(200);
+		JQueryLens.thumbnail.width(400);
 		JQueryLens.thumbnail.offset({top:100,left:50})
 		JQueryLens.lens.offset({top:0,left:0});
-		JQueryLens.lens.width(400);
-		JQueryLens.lens.height(200);
-		JQueryLens.image.width(1000);
-		JQueryLens.image.height(500);
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
+		JQueryLens.image.width(1600);
+		JQueryLens.image.height(1200);
 
 		JQueryLens.init({zoom: 5});
 
