@@ -2,7 +2,10 @@ describe("The JQueryLens", function () {
 
 	beforeEach(function () {
 		$('#test-div').remove();
-        var sample_lens_html_code = '<div id="test-div"><div id="thumbnail"> <div id="locator"> </div> </div> <div id="lens"> <img src="img/image.jpg" /> </div></div>';
+		var sample_lens_html_code = '<div id="test-div">'
+			+ '<div id="thumbnail"> <div id="locator">'
+			+ ' </div> </div> <div id="lens"> '
+			+ ' <img src="img/image.jpg" /> </div></div>';
 		$(sample_lens_html_code).appendTo('body');
 		JQueryLens.init({});
 	});
