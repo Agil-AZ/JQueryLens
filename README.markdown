@@ -41,3 +41,55 @@ index.html
     </body>
 </html>
 ~~~~~
+
+style.css
+----------------------------
+
+~~~~~ ruby
+# in this file we will specify the ids names corresponding to "index.html"
+# also we can to change the position (left, top), size (width, height) and border of 3 divs and image included (#lens img)
+
+#thumbnail
+{
+    border: 0px solid rgba(0,0,0,1);
+    left: 40px;
+    position: absolute;
+    top: 40px;
+    width: 400px;
+}
+
+#lens
+{
+    border: 0px solid rgba(0,0,0,1);
+    height: 600px;
+    left: 500px;
+    overflow: hidden;
+    position: absolute;
+    top: 40px;
+    width: 800px;
+}
+
+#lens img
+{
+    height: 1200px;
+    position: absolute;
+    width: 1600px;
+}
+
+#locator
+{
+    background-color: rgba(255,255,255,0.5);
+    border: 0px solid rgba(0,0,0,0.5);
+    cursor: pointer;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+}
+
+.resize img
+{
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+~~~~~
