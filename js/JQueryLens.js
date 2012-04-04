@@ -73,9 +73,12 @@ JQueryLens = {
 		this.image.offset({
 			top: this.lens.position().top - 
 				 (this.getBorder(this.thumbnail) * this._zoom) - 
-				 (this.locator.position().top * this._zoom),
+				 (this.locator.position().top * this._zoom) - 
+				 (this.getBorder(this.locator) * this._zoom),
 			left: this.lens.position().left - 
-				  (this.getBorder(this.thumbnail) * this._zoom) - (this.locator.position().left * this._zoom)
+				  (this.getBorder(this.thumbnail) * this._zoom) - 
+				  (this.locator.position().left * this._zoom) - 
+				  (this.getBorder(this.locator) * this._zoom)
 		});
 	},
 

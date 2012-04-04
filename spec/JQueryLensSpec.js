@@ -354,5 +354,5 @@ describe("The JQueryLens", function () {
 		JQueryLens.refreshLocatorInThumbnail(340, 215);
 
 		expect(JQueryLens.locator.offset()).toEqual(scenario1.expectedLocatorPosition);
-	})
+	});
 });
