@@ -200,20 +200,24 @@ describe("The JQueryLens", function () {
 
 	it("moves image in lens when mouse moves in thumbnail", function() {
 		JQueryLens.thumbnail.width(400);
-		JQueryLens.thumbnail.offset({top:100,left:50})
-		JQueryLens.lens.offset({top:0,left:0});
+		JQueryLens.thumbnail.offset({top:40,left:40})
+		JQueryLens.lens.offset({top:40,left:500});
 		JQueryLens.lens.width(800);
 		JQueryLens.lens.height(600);
 		JQueryLens.image.width(1600);
 		JQueryLens.image.height(1200);
 
-		JQueryLens.init({zoom: 5});
+		JQueryLens.init({zoom: 4});
 
 		var scenarios = [
 			{
-				mouse: {x:150, y:150},
-				expectedImagePosition: {top:-150, left:-300}
-			}
+				mouse: {x:90, y:77.5}, 
+				expectedImagePosition: {top:0, left:0}
+			},
+			{
+				mouse: {x:140, y:115}, 
+				expectedImagePosition: {top:0, left:0}
+			} 
 		];
 
 		for (var index in scenarios) {
