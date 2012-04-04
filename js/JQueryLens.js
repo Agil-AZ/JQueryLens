@@ -56,8 +56,8 @@ JQueryLens = {
 
 	refreshImageInLens: function() {
 		this.image.offset({
-			top: this.lens.position().top - (this.locator.position().top * this._zoom),
-			left: this.lens.position().left - (this.locator.position().left * this._zoom)
+			top: this.lens.position().top - (parseInt(this.thumbnail.css("border-left-width")) * this._zoom) - (this.locator.position().top * this._zoom),
+			left: this.lens.position().left - (parseInt(this.thumbnail.css("border-left-width")) * this._zoom) - (this.locator.position().left * this._zoom)
 		});
 	},
 

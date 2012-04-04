@@ -129,7 +129,6 @@ describe("The JQueryLens", function () {
 
 			expect(JQueryLens.image.position()).toEqual(scenario.expectedImagePosition);			
 		}
-
 	});
 
 	it("sets locator position when mouse is inside thumbnail", function() {
@@ -292,5 +291,26 @@ describe("The JQueryLens", function () {
 		JQueryLens.refreshLocatorInThumbnail(140, 115);
 
 		expect(JQueryLens.locator.position()).toEqual(scenario1.expectedLocatorPosition);
+	});
+
+	it("moves image on lens when assigns a border to thumbnail", function() {
+		JQueryLens.thumbnail.width(400);
+		JQueryLens.thumbnail.offset({top:40, left:40});
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
+		JQueryLens.lens.offset({top:40, left:500});
+		JQueryLens.image.width(1600);
+		JQueryLens.image.height(1200);
+
+		var zoom = 4;
+		var scenario1 = {expectedImagePosition:{top:356, left:500}}
+
+		JQueryLens.image.offset({top:JQueryLens.image.top, left:JQueryLens.image.left});
+		JQueryLens.thumbnail.css({border:"10px solid #000"});
+
+		JQueryLens.init({zoom: zoom});
+		JQueryLens.refreshLocatorInThumbnail(140, 115);
+
+		expect(JQueryLens.image.offset()).toEqual(scenario1.expectedImagePosition);
 	});
 });
