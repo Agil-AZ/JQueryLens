@@ -17,9 +17,9 @@ We can change the image instance too ("index.html", "image / image.jpg").
 index.html
 ----------------------------
 
-~~~~~ ruby
-# we can to change the ids of divs inside of body 
-# (considering that later we have to change the ids in the css)
+~~~~~ html
+<!-- we can to change the ids of divs inside of body 
+(considering that later we have to change the ids in the css) -->
 
 <!DOCTYPE html>
 <html>
@@ -47,12 +47,12 @@ index.html
 style.css
 ----------------------------
 
-~~~~~ ruby
-# in this file we will specify the ids names corresponding to "index.html"
-# also we can to change the position (left, top), size (width, height) and border 
-# of 3 divs and image included (#lens img)
+~~~~~ css
+/* in this file we will specify the ids names corresponding to "index.html", 
+also we can to change the position (left, top), size (width, height) and border 
+of 3 divs and image included (#lens img) */
 
-\#thumbnail
+#thumbnail
 {
     border: 0px solid rgba(0,0,0,1);
     left: 40px;
@@ -61,7 +61,7 @@ style.css
     width: 400px;
 }
 
-\#lens
+#lens
 {
     border: 0px solid rgba(0,0,0,1);
     height: 600px;
@@ -72,14 +72,14 @@ style.css
     width: 800px;
 }
 
-\#lens img
+#lens img
 {
     height: 1200px;
     position: absolute;
     width: 1600px;
 }
 
-\#locator
+#locator
 {
     background-color: rgba(255,255,255,0.5);
     border: 0px solid rgba(0,0,0,0.5);
