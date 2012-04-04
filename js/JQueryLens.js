@@ -35,10 +35,21 @@ JQueryLens = {
 		return parseInt(element.css("border-left-width"));
 	},
 
-	moveLocator: function() {
+	moveLocatorAccordingToBorder: function() {
 		this.locator.offset({
-			top: this.locator.offset().top + parseInt(this.thumbnail.css("border-left-width")),
-			left: this.locator.offset().left + parseInt(this.thumbnail.css("border-left-width"))
+			top: this.locator.offset().top + 
+				 this.getBorder(this.thumbnail),
+			left: this.locator.offset().left + 
+				  this.getBorder(this.thumbnail)
+		});
+	},
+
+	moveImageAccordingToBorder: function() {
+		this.image.offset({
+			top: this.image.offset().top + 
+				 this.getBorder(this.lens),
+			left: this.image.offset().left + 
+				  this.getBorder(this.lens)
 		});
 	},
 
@@ -126,7 +137,8 @@ JQueryLens = {
 
 		this.adjustLocatorPosition();
 		this.refreshImageInLens();
-		this.moveLocator();
+		this.moveLocatorAccordingToBorder();
+		this.moveImageAccordingToBorder();
 	},
 };
 

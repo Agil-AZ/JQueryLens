@@ -277,13 +277,13 @@ describe("The JQueryLens", function () {
 		JQueryLens.lens.offset({top:40, left:500});
 		JQueryLens.image.width(1600);
 		JQueryLens.image.height(1200);
-		
+
 		var zoom = 4;
 		var scenario1 = {
 							locatorAbsolutePosition:{top:40, left:40}, 
 							expectedLocatorPosition:{top:0, left:0}
 						}
-		
+
 		JQueryLens.locator.offset({top:scenario1.locatorAbsolutePosition.top, left:scenario1.locatorAbsolutePosition.left});
 		JQueryLens.thumbnail.css({border:"10px solid #000"});
 
@@ -310,6 +310,27 @@ describe("The JQueryLens", function () {
 
 		JQueryLens.init({zoom: zoom});
 		JQueryLens.refreshLocatorInThumbnail(140, 115);
+
+		expect(JQueryLens.image.offset()).toEqual(scenario1.expectedImagePosition);
+	});
+
+	it("moves image on lens when assigns a border to lens", function() {
+		JQueryLens.thumbnail.width(400);
+		JQueryLens.thumbnail.offset({top:40, left:40});
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
+		JQueryLens.lens.offset({top:40, left:500});
+		JQueryLens.image.width(1600);
+		JQueryLens.image.height(1200);
+
+		var zoom = 4;
+		var scenario1 = {expectedImagePosition:{top:-54, left:-290}}
+
+		JQueryLens.image.offset({top:JQueryLens.image.top, left:JQueryLens.image.left});
+		JQueryLens.lens.css({border:"10px solid #000"});
+
+		JQueryLens.init({zoom: zoom});
+		JQueryLens.refreshLocatorInThumbnail(340, 215);
 
 		expect(JQueryLens.image.offset()).toEqual(scenario1.expectedImagePosition);
 	});
