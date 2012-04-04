@@ -31,6 +31,10 @@ JQueryLens = {
 		return $("#" + id);
 	},
 
+	getBorder : function(element) {
+		return parseInt(element.css("border-left-width"));
+	},
+
 	moveLocator: function() {
 		this.locator.offset({
 			top: this.locator.offset().top + parseInt(this.thumbnail.css("border-left-width")),
@@ -56,8 +60,11 @@ JQueryLens = {
 
 	refreshImageInLens: function() {
 		this.image.offset({
-			top: this.lens.position().top - (parseInt(this.thumbnail.css("border-left-width")) * this._zoom) - (this.locator.position().top * this._zoom),
-			left: this.lens.position().left - (parseInt(this.thumbnail.css("border-left-width")) * this._zoom) - (this.locator.position().left * this._zoom)
+			top: this.lens.position().top - 
+				 (this.getBorder(this.thumbnail) * this._zoom) - 
+				 (this.locator.position().top * this._zoom),
+			left: this.lens.position().left - 
+				  (this.getBorder(this.thumbnail) * this._zoom) - (this.locator.position().left * this._zoom)
 		});
 	},
 
