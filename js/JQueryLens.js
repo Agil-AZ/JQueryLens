@@ -23,17 +23,39 @@ JQueryLens = {
 		this.resizeImage();
 	},
 
-	resizeImage: function() {
-		this.image.width(this.thumbnail.width() * this._zoom);
-		this.image.height(this.thumbnail.height() * this._zoom);
-	},
-
 	getIdForImage: function() {
 		return this.getElement(this.lens.attr("id") + " img");
 	},
 
 	getElement: function(id) {
 		return $("#" + id);
+	},
+
+	getBorder : function(element) {
+		return parseInt(element.css("border-left-width"));
+	},
+
+	moveLocatorAccordingToBorder: function() {
+		this.locator.offset({
+			top: this.locator.offset().top + 
+				 this.getBorder(this.thumbnail),
+			left: this.locator.offset().left + 
+				  this.getBorder(this.thumbnail)
+		});
+	},
+
+	moveImageAccordingToBorder: function() {
+		this.image.offset({
+			top: this.image.offset().top + 
+				 this.getBorder(this.lens),
+			left: this.image.offset().left + 
+				  this.getBorder(this.lens)
+		});
+	},
+
+	resizeImage: function() {
+		this.image.width(this.thumbnail.width() * this._zoom);
+		this.image.height(this.thumbnail.height() * this._zoom);
 	},
 
 	resizeLocator: function() {
@@ -49,15 +71,21 @@ JQueryLens = {
 
 	refreshImageInLens: function() {
 		this.image.offset({
-			top: this.lens.position().top - (this.locator.position().top * this._zoom),
-			left: this.lens.position().left - (this.locator.position().left * this._zoom)
+			top: this.lens.position().top - 
+				 (this.getBorder(this.thumbnail) * this._zoom) - 
+				 (this.locator.position().top * this._zoom) - 
+				 (this.getBorder(this.locator) * this._zoom),
+			left: this.lens.position().left - 
+				  (this.getBorder(this.thumbnail) * this._zoom) - 
+				  (this.locator.position().left * this._zoom) - 
+				  (this.getBorder(this.locator) * this._zoom)
 		});
 	},
 
 	getDifference: function(innerDiv, outerDiv) {
 		return {
-			vertical: outerDiv.height() - innerDiv.height(),
-			horizontal: outerDiv.width() - innerDiv.width(),
+			vertical: outerDiv.height() - innerDiv.height() - this.getBorder(innerDiv)*2,
+			horizontal: outerDiv.width() - innerDiv.width() - this.getBorder(innerDiv)*2,
 		};
 	},
 
@@ -106,12 +134,14 @@ JQueryLens = {
 
 	refreshLocatorInThumbnail: function(x, y) {
 		this.locator.offset({
-			top: y - this.locator.height()/2,
-			left: x - this.locator.width()/2
+			top: y - (this.locator.height() + this.getBorder(this.locator) * 2) / 2,
+			left: x - (this.locator.width() + this.getBorder(this.locator) * 2) / 2
 		});
 
 		this.adjustLocatorPosition();
 		this.refreshImageInLens();
+		this.moveLocatorAccordingToBorder();
+		this.moveImageAccordingToBorder();
 	},
 };
 

@@ -2,10 +2,7 @@ describe("The JQueryLens", function () {
 
 	beforeEach(function () {
 		$('#test-div').remove();
-		var sample_lens_html_code = '<div id="test-div">'
-			+ '<div id="thumbnail"> <div id="locator">'
-			+ ' </div> </div> <div id="lens"> '
-			+ ' <img src="img/image.jpg" /> </div></div>';
+        var sample_lens_html_code = '<div id="test-div"><div id="thumbnail"> <div id="locator"> </div> </div> <div id="lens"> <img src="img/image.jpg" /> </div></div>';
 		$(sample_lens_html_code).appendTo('body');
 		JQueryLens.init({});
 	});
@@ -132,7 +129,6 @@ describe("The JQueryLens", function () {
 
 			expect(JQueryLens.image.position()).toEqual(scenario.expectedImagePosition);			
 		}
-
 	});
 
 	it("sets locator position when mouse is inside thumbnail", function() {
@@ -263,13 +259,100 @@ describe("The JQueryLens", function () {
 		JQueryLens.lens.width(800);
 		JQueryLens.lens.height(600);
 		JQueryLens.image.width(1600);
-		JQueryLens.image.height(1200);		
+		JQueryLens.image.height(1200);	
 
-		var zoom=6;
+		var zoom = 6;
 
 		JQueryLens.init({zoom: zoom});
 
 		expect(JQueryLens.image.width()/JQueryLens.thumbnail.width()).toEqual(zoom);
 		expect(JQueryLens.image.height()/JQueryLens.thumbnail.height()).toEqual(zoom);
+	});
+
+	it("moves locator in thumbnail when assigns a border to thumbnail", function() {
+		JQueryLens.thumbnail.width(400);
+		JQueryLens.thumbnail.offset({top:40, left:40});
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
+		JQueryLens.lens.offset({top:40, left:500});
+		JQueryLens.image.width(1600);
+		JQueryLens.image.height(1200);
+
+		var zoom = 4;
+		var scenario1 = {
+							locatorAbsolutePosition:{top:40, left:40}, 
+							expectedLocatorPosition:{top:0, left:0}
+						}
+
+		JQueryLens.locator.offset({top:scenario1.locatorAbsolutePosition.top, left:scenario1.locatorAbsolutePosition.left});
+		JQueryLens.thumbnail.css({border:"10px solid #000"});
+
+		JQueryLens.init({zoom: zoom});
+		JQueryLens.refreshLocatorInThumbnail(140, 115);
+
+		expect(JQueryLens.locator.position()).toEqual(scenario1.expectedLocatorPosition);
+	});
+
+	it("moves image on lens when assigns a border to thumbnail", function() {
+		JQueryLens.thumbnail.width(400);
+		JQueryLens.thumbnail.offset({top:40, left:40});
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
+		JQueryLens.lens.offset({top:40, left:500});
+		JQueryLens.image.width(1600);
+		JQueryLens.image.height(1200);
+
+		var zoom = 4;
+		var scenario1 = {expectedImagePosition:{top:356, left:500}}
+
+		JQueryLens.image.offset({top:JQueryLens.image.top, left:JQueryLens.image.left});
+		JQueryLens.thumbnail.css({border:"10px solid #000"});
+
+		JQueryLens.init({zoom: zoom});
+		JQueryLens.refreshLocatorInThumbnail(140, 115);
+
+		expect(JQueryLens.image.offset()).toEqual(scenario1.expectedImagePosition);
+	});
+
+	it("moves image on lens when assigns a border to lens", function() {
+		JQueryLens.thumbnail.width(400);
+		JQueryLens.thumbnail.offset({top:40, left:40});
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
+		JQueryLens.lens.offset({top:40, left:500});
+		JQueryLens.image.width(1600);
+		JQueryLens.image.height(1200);
+
+		var zoom = 4;
+		var scenario1 = {expectedImagePosition:{top:-54, left:-290}}
+
+		JQueryLens.image.offset({top:JQueryLens.image.top, left:JQueryLens.image.left});
+		JQueryLens.lens.css({border:"10px solid #000"});
+
+		JQueryLens.init({zoom: zoom});
+		JQueryLens.refreshLocatorInThumbnail(340, 215);
+
+		expect(JQueryLens.image.offset()).toEqual(scenario1.expectedImagePosition);
+	});
+
+	it("resizes locator on thumbnail when assigns a border to locator", function() {
+		JQueryLens.thumbnail.width(400);
+		JQueryLens.thumbnail.offset({top:40, left:40});
+		JQueryLens.lens.width(800);
+		JQueryLens.lens.height(600);
+		JQueryLens.lens.offset({top:40, left:500});
+		JQueryLens.image.width(1600);
+		JQueryLens.image.height(1200);
+
+		var zoom = 4;
+		var scenario1 = {expectedLocatorPosition:{top:130, left:220}}
+
+		JQueryLens.image.offset({top:JQueryLens.image.top, left:JQueryLens.image.left});
+		JQueryLens.locator.css({border:"10px solid #000"});
+
+		JQueryLens.init({zoom: zoom});
+		JQueryLens.refreshLocatorInThumbnail(340, 215);
+
+		expect(JQueryLens.locator.offset()).toEqual(scenario1.expectedLocatorPosition);
 	});
 });
