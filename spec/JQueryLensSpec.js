@@ -27,8 +27,8 @@ describe("The JQueryLens", function () {
 
 	it("can be initialized with values for its fields", function () {
 		var anotherDivId = "temp-div";
-        var temp_div = '<div id="' + anotherDivId + '"></div>';
-		$(temp_div).appendTo('body');
+		var temp_div = $('<div id="' + anotherDivId + '"></div>');
+		temp_div.appendTo('body');
 
 		JQueryLens.init({
 			locator:   anotherDivId,
@@ -40,7 +40,7 @@ describe("The JQueryLens", function () {
 		expect(JQueryLens.thumbnail.attr("id")).toBe(anotherDivId);
 		expect(JQueryLens.lens.attr("id")).toBe(anotherDivId);
 
-		$('#temp-div').remove();
+		temp_div.remove();
 	});
 
 	it("has locator with same proportion than lens", function () {
