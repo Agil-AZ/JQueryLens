@@ -70,12 +70,14 @@ JQueryLens = {
 	},
 
 	refreshImageInLens: function() {
+        var lensTop = Math.ceil(this.lens.position().top);
+        var lensLeft = Math.ceil(this.lens.position().left);
 		this.image.offset({
-			top: this.lens.position().top - 
+			top: lensTop - 
 				 (this.getBorder(this.thumbnail) * this._zoom) - 
 				 (this.locator.position().top * this._zoom) - 
 				 (this.getBorder(this.locator) * this._zoom),
-			left: this.lens.position().left - 
+			left: lensLeft  - 
 				  (this.getBorder(this.thumbnail) * this._zoom) - 
 				  (this.locator.position().left * this._zoom) - 
 				  (this.getBorder(this.locator) * this._zoom)
@@ -123,8 +125,8 @@ JQueryLens = {
 
 	adjustLocatorPosition: function() {
 		var position = {
-			top: this.locator.offset().top,
-			left: this.locator.offset().left
+			top: Math.ceil(this.locator.offset().top),
+			left: Math.ceil(this.locator.offset().left)
 		};
 
 		var adjustedPosition = this.adjust(position, this.locatorLimits());
