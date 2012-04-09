@@ -7,6 +7,11 @@ describe("The JQueryLens", function () {
 		JQueryLens.init({});
 	});
 
+
+	afterEach(function () {
+		$('#test-div').remove();
+	});
+
 	it("cannot change not query its width, height and zoom", function () {
 		expect(JQueryLens.setWidth).toBeUndefined();
 		expect(JQueryLens.setHeight).toBeUndefined();
