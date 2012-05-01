@@ -1,18 +1,13 @@
 JQueryLens
 ============================================================
 
-JQueryLens is a JQuery component which allows to implement a lens over an image uploaded.
+JQueryLens is a JQuery component that allows to place a lens over a given image.
 
-Example included
+Quickstart
 -------------------------------------------------------
 
-Inside the "sample" folder is an index.html that shows the operation of the component.
-
-This image is inside the "img" folder and styles are inside the css folder.
-
-Here is where we can manipulate the values ​​of div's names, sizes and positions ("index.html", "css / style.css").
-
-We can change the image instance too ("index.html", "image / image.jpg").
+You can see an example of use in the "sample" folder.
+As you can see in the index.html, we have a specific div structure to get the lens component properly working; we expect to minimize this sort of dependency in further versions of the component.
 
 index.html
 ----------------------------
@@ -43,6 +38,8 @@ index.html
     </body>
 </html>
 ~~~~~
+
+We also provide a CSS stylesheet file for the example, although further versions of the component are expected to work properly with no stylesheet.
 
 style.css
 ----------------------------
@@ -96,3 +93,26 @@ of 3 divs and image included (#lens img) */
     width: 100%;
 }
 ~~~~~
+
+Finally, you can change some behaviour of the component in the js/JQueryLens.js file, which in the end has the following snippet of code:
+
+js/JQueryLens.js
+----------------------------
+
+~~~~~ js
+$(document).ready(function() {
+	JQueryLens.init({
+		zoom: 4
+	});
+	JQueryLens.thumbnail.mousemove(function(e) {
+		JQueryLens.refreshLocatorInThumbnail(e.pageX, e.pageY);
+	});
+});
+~~~~~
+
+In further versions of the component, we expect to simplify this function to a unique call to the init() method that you can do inside your own html files. Currently, supported parameters for the init() method are:
+
+- zoom: proportion between real image and lens frame; default value is 4
+- locator: id of the lens locator div
+- thumbnail: id of the lens thumbnail div
+- lens: id of the lens div
