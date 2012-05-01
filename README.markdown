@@ -9,8 +9,8 @@ Quickstart
 You can see an example of use in the "sample" folder.
 As you can see in the index.html, we have a specific div structure to get the lens component properly working; we expect to minimize this sort of dependency in further versions of the component.
 
-index.html
-----------------------------
+sample/index.html
+============================
 
 ~~~~~ html
 <!-- we can to change the ids of divs inside of body 
@@ -41,8 +41,8 @@ index.html
 
 We also provide a CSS stylesheet file for the example, although further versions of the component are expected to work properly with no stylesheet.
 
-style.css
-----------------------------
+sample/style.css
+============================
 
 ~~~~~ css
 /* in this file we will specify the ids names corresponding to "index.html", 
@@ -97,7 +97,7 @@ of 3 divs and image included (#lens img) */
 Finally, you can change some behaviour of the component in the js/JQueryLens.js file, which in the end has the following snippet of code:
 
 js/JQueryLens.js
-----------------------------
+============================
 
 ~~~~~ js
 $(document).ready(function() {
