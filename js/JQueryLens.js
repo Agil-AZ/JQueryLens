@@ -70,8 +70,8 @@ JQueryLens = {
 	},
 
 	refreshImageInLens: function() {
-        var lensTop = Math.ceil(this.lens.position().top);
-        var lensLeft = Math.ceil(this.lens.position().left);
+		var lensTop = Math.ceil(this.lens.position().top);
+		var lensLeft = Math.ceil(this.lens.position().left);
 		this.image.offset({
 			top: lensTop - 
 				 (this.getBorder(this.thumbnail) * this._zoom) - 
