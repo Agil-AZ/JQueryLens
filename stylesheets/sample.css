@@ -1,43 +1,35 @@
-#thumbnail
-{
-    border: 10px solid rgba(0,0,0,1);
-    left: 40px;
-    position: absolute;
-    top: 40px;
-    width: 400px;
+#thumbnail {
+	border: 2px solid rgba(0,0,0,1);
+	position: absolute;
+	width: 100px;
 }
 
-#lens
-{
-    border: 10px solid rgba(0,0,0,1);
-    height: 600px;
-    left: 500px;
-    overflow: hidden;
-    position: absolute;
-    top: 40px;
-    width: 800px;
+#lens {
+	border: 2px solid rgba(0,0,0,1);
+	height: 300px;
+	overflow: hidden;
+	position: absolute;
+	width: 400px;
+	margin-top: 0px;
+	margin-left: 150px;
 }
 
-#lens img
-{
-    height: 1200px;
-    position: absolute;
-    width: 1600px;
+#lens img {
+	height: 300px;
+	position: relative;
+	width: 400px;
+	max-width: 1000%;
 }
 
-#locator
-{
-    background-color: rgba(255,255,255,0.5);
-    border: 10px solid rgba(255,0,0,1);
-    cursor: pointer;
-    left: 0px;
-    position: absolute;
-    top: 0px;
+#locator {
+	background-color: rgba(255,255,255,0.5);
+	border: 2px solid rgba(255,0,0,1);
+	cursor: pointer;
+	position: absolute;
 }
 
-.resize img
-{
-    height: 100%;
-    position: relative;
-    width: 100%;
+.resize img {
+	height: 100%;
+	position: relative;
+	width: 100%;
 }

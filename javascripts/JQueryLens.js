@@ -35,6 +35,14 @@ JQueryLens = {
 		return parseInt(element.css("border-left-width"));
 	},
 
+	getMarginLeft : function(element) {
+		return parseInt(element.css("margin-left"));
+	},
+
+	getMarginTop : function(element) {
+		return parseInt(element.css("margin-top"));
+	},
+
 	moveLocatorAccordingToBorder: function() {
 		this.locator.offset({
 			top: this.locator.offset().top + 
@@ -44,12 +52,15 @@ JQueryLens = {
 		});
 	},
 
+	// TODO test margins
 	moveImageAccordingToBorder: function() {
 		this.image.offset({
 			top: this.image.offset().top + 
-				 this.getBorder(this.lens),
+				this.getBorder(this.lens) +
+				this.getMarginTop(this.lens),
 			left: this.image.offset().left + 
-				  this.getBorder(this.lens)
+				this.getBorder(this.lens) +
+				this.getMarginLeft(this.lens)
 		});
 	},
 
@@ -149,7 +160,7 @@ JQueryLens = {
 
 $(document).ready(function() {
 	JQueryLens.init({
-		zoom: 4
+		zoom: 8
 	});
 	JQueryLens.thumbnail.mousemove(function(e) {
 		JQueryLens.refreshLocatorInThumbnail(e.pageX, e.pageY);
