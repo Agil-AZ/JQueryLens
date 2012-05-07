@@ -63,10 +63,10 @@ $ git checkout production</pre>
 
 					<h3>How to use</h3>
 					<p>
-						We've crafted this component to be flexible but
+						We're crafting this component to be flexible but
 						also easy to use. You can see a basic example of
-						use in the file <b>samples/basic.html</b>, and an
-						advanced one in <b>samples/advanced.html</b>.
+						use in the file <b>sample/index.html</b>. We hope
+						to craft an advanced one soon.
 					</p>
 					<p>
 						As you can see in the basic example, you just need
@@ -75,8 +75,17 @@ $ git checkout production</pre>
 						thumbnail of the image and the other for the 
 						zoom area:
 					</p>
-					<code>
-<pre>Blah...</pre>
+					<code class="highlight">
+<pre>
+&lt;div id=<span class="s">"thumbnail"</span> class=<span class="s">"resize"</span>&gt;
+    &lt;img src=<span class="s">"images/image.jpg"</span> alt=<span class="s">"imagen"</span> /&gt;
+    &lt;div id=<span class="s">"locator"</span>&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=<span class="s">"lens"</span>&gt;
+    &lt;img id=<span class="s">"view"</span> src=<span class="s">"images/image.jpg"</span> alt=<span class="s">"imagen"</span> /&gt;
+&lt;/div&gt;
+</pre>
 					</code>
 					<h3>Authors and Contributors</h3>
 					<p>
